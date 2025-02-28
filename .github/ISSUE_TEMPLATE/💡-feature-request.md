@@ -1,8 +1,8 @@
 ---
 name: "\U0001F4A1 Feature Request"
 about: Suggest an idea for this project
-title: "[FEATURE]"
-labels: feature request
+title: "[FEATURE] Add title here"
+labels: enhancement,good first issue
 assignees: saulojoab
 ---
 
@@ -12,25 +12,17 @@ assignees: saulojoab
 
 <!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
 
-- ***
-
 ## **Describe the solution you'd like**
 
 <!-- A clear and concise description of what you want to happen. -->
-
-- ***
 
 ## **Describe alternatives you've considered**
 
 <!-- A clear and concise description of any alternative solutions or features you've considered. -->
 
-- ***
-
-### **Additional context**
+## **Additional context**
 
 <!-- Add any other context or additional information about the problem here.-->
-
--
 
 <!--📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛📛
 
