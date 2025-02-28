@@ -1,8 +1,8 @@
 ---
 name: "\U0001F4A1 Feature Request"
 about: Suggest an idea for this project
-title: "[FEATURE] Add title here"
-labels: enhancement,good first issue
+title: "💡 [FEATURE] Add title here"
+labels: enhancement
 assignees: saulojoab
 ---
 
