@@ -6,25 +6,12 @@ import { useRouter } from "next/router";
 
 export const useMainService = () => {
   const cameraRef = useRef(null);
-  const [, setImage] = useState<string>("");
+
+  const [image, setImage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
-  const [availableCameras, setAvailableCameras] = useState<MediaDeviceInfo[]>(
-    []
-  );
-  const [selectedCamera, setSelectedCamera] = useState<string>("");
 
   const router = useRouter();
-
-  const errorMessages = {
-    noCameraAccessible:
-      "No camera device accessible. Please connect your camera or try a different browser.",
-    permissionDenied:
-      "Permission denied. Please refresh and give camera permission.",
-    switchCamera:
-      "It is not possible to switch camera to different one because there is only one video device accessible.",
-    canvas: "Canvas is not supported.",
-  };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -39,18 +26,6 @@ export const useMainService = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function takePhoto() {
-    const camera = cameraRef?.current as unknown as CameraType;
-    if (!camera) return;
-
-    const imageBase64 = camera
-      .takePhoto("base64url")
-      .toString()
-      .replace("data:image/jpeg;base64,", "");
-    setImage(imageBase64);
-    sendToAITest(imageBase64);
-  }
 
   async function sendToAITest(image: string) {
     setLoading(true);
@@ -90,35 +65,21 @@ export const useMainService = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    async function getCameras() {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(
-          (device) => device.kind === "videoinput"
-        );
-        setAvailableCameras(videoDevices);
-      } catch (error) {
-        console.error("Error fetching cameras: ", error);
-      }
-    }
+  function takePhoto() {
+    const camera = cameraRef?.current as unknown as CameraType;
+    if (!camera) return;
 
-    getCameras();
-  }, []);
+    const imageBase64 = camera.takePhoto("base64url").toString();
 
-  function handleSelectCamera(event: React.ChangeEvent<HTMLSelectElement>) {
-    console.log("Selected camera: ", event.target.value);
-    setSelectedCamera(event.target.value);
+    setImage(imageBase64);
+    sendToAITest(imageBase64.replace("data:image/jpeg;base64,", ""));
   }
 
   return {
     cameraRef,
-    errorMessages,
     takePhoto,
     loading,
     loadingMessage,
-    availableCameras,
-    handleSelectCamera,
-    selectedCamera,
+    image,
   };
 };

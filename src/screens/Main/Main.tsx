@@ -1,56 +1,28 @@
-import {
-  ButtonContainer,
-  CameraContainer,
-  CameraSelector,
-  CameraSelectorContainer,
-  MainFrame,
-} from "./Main.style";
-import { Camera } from "react-camera-pro";
-import Button from "@/components/Button/Button";
+import { MainFrame } from "./Main.style";
 import { useMainService } from "./Main.service";
 import { PageContainer } from "@/components/PageContainer/PageContainer.style";
+import Camera from "./Camera/Camera";
+import Shutter from "./Shutter/Shutter";
+import ImagePreview from "./ImagePreview/ImagePreview";
 
 export default function MainPage() {
-  const {
-    cameraRef,
-    errorMessages,
-    takePhoto,
-    loading,
-    loadingMessage,
-    availableCameras,
-    handleSelectCamera,
-    selectedCamera,
-  } = useMainService();
+  const { image, takePhoto, loading, loadingMessage, cameraRef } =
+    useMainService();
 
   return (
     <PageContainer>
       <MainFrame>
-        <CameraContainer>
-          <Camera
-            videoSourceDeviceId={selectedCamera}
-            errorMessages={errorMessages}
-            ref={cameraRef}
-          />
-          <CameraSelectorContainer>
-            <CameraSelector onChange={handleSelectCamera}>
-              {availableCameras?.map((camera) => (
-                <option key={camera.deviceId} value={camera.deviceId}>
-                  {camera.label}
-                </option>
-              ))}
-            </CameraSelector>
-          </CameraSelectorContainer>
-        </CameraContainer>
-        <ButtonContainer>
-          {loading ? (
-            <>LOADING: {loadingMessage}</>
-          ) : (
-            <>
-              <Button onClick={takePhoto}>Take photo</Button> Or press the
-              SPACEBAR key.
-            </>
-          )}
-        </ButtonContainer>
+        {image ? (
+          <ImagePreview image={image} />
+        ) : (
+          <Camera cameraRef={cameraRef} />
+        )}
+
+        <Shutter
+          takePhoto={takePhoto}
+          loading={loading}
+          loadingMessage={loadingMessage}
+        />
       </MainFrame>
     </PageContainer>
   );
